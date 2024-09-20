@@ -1,8 +1,9 @@
-from src.game import StartGame
+from src.game import GameSetup
 
 
 def main():
-   StartGame()
+   setup = GameSetup()
+   setup.StartGame()
 
 
 
