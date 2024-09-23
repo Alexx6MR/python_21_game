@@ -2,13 +2,14 @@ import sys
 
 from src.gameUI import GameUI
 from src.player import Player
-from src.deck import Deck
+from src.deck import Deck, Card
+
 
 
 class Game21Setup:
     def __init__(self) -> None:
         self.__isGameRunning: bool = True
-        self.currentPcHand: list[dict] = []
+        self.currentPcHand: list[Card] = []
         
         #* Import and initiate the classes needed for the application to work
         self.gameUI = GameUI()
@@ -26,11 +27,11 @@ class Game21Setup:
         
     
     #* function to return the Current player/pc hand
-    def CheckHandTotalValue(self, currentHand)->int:
+    def CheckHandTotalValue(self, currentHand: list[Card])->int:
         totalValue: int = 0
 
         for card in currentHand:
-            totalValue += card["value"]
+            totalValue += card.value
              
         return totalValue    
  
@@ -76,7 +77,7 @@ class Game21Setup:
             
         #* loop to control the player turn
         while isPlayerTurn:
-            playerHandTotalvalue = self.CheckHandTotalValue(self.currentPlayer.get_CurrentHand())            
+            playerHandTotalvalue: int = self.CheckHandTotalValue(self.currentPlayer.get_CurrentHand())            
             
             if(playerHandTotalvalue > 21):
                 self.gameUI.EndMessage(
@@ -122,10 +123,6 @@ class Game21Setup:
 
         while self.__isGameRunning:
             
-            #*Check if the Game is off before Start
-            if self.__isGameRunning == False: 
-                break 
-            
             self.PlayerTurn()
             playerHandValue = self.CheckHandTotalValue(self.currentPlayer.get_CurrentHand()) 
                 
@@ -147,7 +144,6 @@ class Game21Setup:
                         {"title": "Go to Menu", "action":self.StartGame},
                     ]
                     )
-                    isPcTurn = False
                 elif pcHandValue > playerHandValue and pcHandValue < 21:
                     self.gameUI.EndMessage(
                     message="Sorry you loose, the computer was luckier this time", 
@@ -158,23 +154,18 @@ class Game21Setup:
                         {"title": "Go to Menu", "action":self.StartGame},
                     ]
                     )
-                    isPcTurn = False
                 else:
-                    #! Make sure that this is working before
                     #* Adding a new card to pc Hand
-                    card: dict = self.deck.get_OneCard()
-                    if card["number"] != "1": 
+                    card: Card = self.deck.get_OneCard()
+                    if card.number != "Ace": 
                         self.currentPcHand.append(card)
                     else:
                         if pcHandValue + 14 > playerHandValue and pcHandValue + 14  < 21:
                             print(" this is true" + pcHandValue + 14)
-                            self.currentPcHand.append(dict(number="1", suit=card["suit"], value=14))
+                            self.currentPcHand.append(Card(number="Ace", suit=card.suit, value=14))
                         else:
                             self.currentPcHand.append(card)
 
-            break
-                    
-        #! Cuando estoy en la partida y salgo de ella y quiero ir menu y desde menu quiero cerrar el programa, el programa no se cierra y me envia a inGame
     
     #* Start menu: here the user can choose what to do
     def StartGame(self) -> None:                         

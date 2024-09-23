@@ -1,5 +1,5 @@
 import pyinputplus as pyip
-
+from src.deck import Card
 
 class GameUI:
     def __init__(self) -> None:
@@ -34,24 +34,24 @@ class GameUI:
 
     
     #* This function will print the cards and total value of the players/Pc hands
-    def ShowCurrentHandAndTotalValue(self, currentCards):
+    def ShowCurrentHandAndTotalValue(self, currentCards:list[Card]):
         currentTotalCards:int = len(currentCards)
         currentTotalCardsValue:int = 0
         
         #* loop to show current cards in order
         for cardIndex in range(currentTotalCards):
-            card:dict = currentCards[cardIndex]
-            print(f"{cardIndex + 1}. {card["number"]} {card["suit"]}")
+            card:Card = currentCards[cardIndex]
+            print(f"{cardIndex + 1}. {card.number} {card.suit}")
 
         #* loop to add every card value and show the total value
         for card in currentCards:
-            currentTotalCardsValue += card["value"]
+            currentTotalCardsValue += card.value
         
         print(f"Total Value: {currentTotalCardsValue}")
     
     
     #* Show a Message when someone Win and give some options
-    def EndMessage(self, currentPlayerCards:list[dict], pcCurrentCards:list[dict], message:str, menuOptions: list[dict])->None:
+    def EndMessage(self, currentPlayerCards:list[Card], pcCurrentCards:list[Card], message:str, menuOptions: list[dict])-> None:
         print()
         print("PC Total hand:")
         self.ShowCurrentHandAndTotalValue(pcCurrentCards)
@@ -66,7 +66,7 @@ class GameUI:
         menuOptions=menuOptions)
 
     #* To print the board
-    def PrintBoard(self, currentPlayerCards, pcCurrentCards)->None:
+    def PrintBoard(self, currentPlayerCards:list[Card], pcCurrentCards:list[Card])-> None:
         print("--------------")
         print("")
         print("PC Hand: ")
