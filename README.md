@@ -16,33 +16,26 @@ The idea of ​​the game is to try with two or more cards to reach the total v
 7. The computer thus wins on the same score
 
 
-## Hur man kör spelet
+## How to run the game
 
-För att köra spelet måste du ha Python installerat på din dator. Följ stegen nedan:
+To run the game, you must have Python installed on your computer. Follow the steps below:
 
-1. Klona projektet eller ladda ner källkoden.
-2. Öppna en terminal och navigera till projektets rotmapp.
-3. Kör spelet med följande kommando:
+1. Clone the project or download the source code.
+2. Open a terminal and navigate to the root folder of the project.
+3. Run the game with the following command:
     ```bash
     python main.py
     ```
 
-## Projektstruktur
+## Project structure
 
-Projektet är organiserat enligt följande mappstruktur:
+The project is organized according to the following folder structure:
 
-- `src/`: Innehåller spelets källkod.
-- `tests/`: Innehåller testfiler för att verifiera spelets funktionalitet.
-- `README.md`: Dokumentation för projektet (denna fil).
-- `.gitignore`: Anger vilka filer som ska ignoreras av Git.
+- `src/`: Contains the game's source code.
+- `main.py`: Entry point.
+- `README.md`: Documentation for the project (this file).
+- `.gitignore`: Specifies which files to ignore by Git.
 
-## Krav
-Validation av user inputs
+## requirements
+Validation of user inputs
 - pip install pyinputplus
-
-## Bidrag
-
-Om du vill bidra till projektet, vänligen följ standard arbetsflödet för Git:
-1. Fork projektet.
-2. Skapa en ny gren för din funktion eller buggfix.
-3. Gör ändringarna och skapa en pull request.
