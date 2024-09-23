@@ -34,8 +34,8 @@ class Player:
             self.__currentHandCards.append(checkCard)
 
     #* add the inicial cards into the player hand 
-    def set_InitialHand(self, card1:Card, card2:Card) -> None:
-        self.__currentHandCards = [self.SelectAceValue(card1), self.SelectAceValue(card2)]
+    def set_InitialHand(self, card1:Card) -> None:
+        self.__currentHandCards = [self.SelectAceValue(card1)]
         
     
     #** Getters

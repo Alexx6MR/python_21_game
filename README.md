@@ -1,15 +1,20 @@
-# Spelet "21" i Python
+# The game "21" in Python
+This is the group project of nackademin's programming course 1 of the DevsOps engineer career. This is a Python project to create the card game "21", The Swedish version of blackjack. The most important differences between these two games are partly the value of the cards, partly that the banker in twenty-one plays against one player at a time and not, as in Black Jack, against everyone at once.
 
-Detta är ett Python-projekt för att skapa kortspelet "21", även känt som Blackjack. Målet med spelet är att ha en hand vars värde är så nära 21 som möjligt utan att överstiga det.
+The idea of ​​the game is to try with two or more cards to reach the total value of 21, or get as close as possible without exceeding 21. Aces are worth either 1 or 14, kings 13, queens 12, jacks 11. The number cards have the same values ​​as the denomination .
 
-## Spelregler
+[21 Game rules](https://sv.wikipedia.org/wiki/Tjugoett_(kortspel))
 
-1. Varje spelare börjar med två kort.
-2. Korten med siffror har sitt eget värde, klädda kort (knekt, dam, kung) är värda 10 och ess kan vara värda antingen 1 eller 14.
-3. Spelaren kan välja att dra fler kort ("hit") eller stanna med sin nuvarande hand ("stand").
-4. Om en spelares hand överstiger 21 förlorar spelaren omedelbart.
-5. Om spelaren stannar under 21 får också datorn dra ett kort i taget och efter varje kort avgöra om den skall fortsätta eller inte
-6. Om datorn får mer än 21 poäng eller lägre poäng än användaren vinner användaren, annars vinner datorn.
+## Game rules
+
+1. The game is played so that the player is dealt one card at a time and after each card must decide whether he wants additional cards or not.
+2. It is up to the player to try to get the sum of the card values ​​as close as possible to 21 without exceeding this number.
+3. Ace counts as either 1 or 14. user can choose which value to use.
+4. If the player gets over 21, he loses and the computer wins.
+5. If the player stays below 21, the computer must also draw one card at a time and after each card decide whether to continue or not.
+6. If the computer scores more than 21 points or less than the user, the user wins, otherwise the computer wins.
+7. The computer thus wins on the same score
+
 
 ## Hur man kör spelet
 

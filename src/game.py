@@ -35,25 +35,24 @@ class Game21Setup:
              
         return totalValue    
  
- 
     #* This function works as a "Page" that the user can check if they want to see the rules of the game  
     def PrintRules(self)-> None:
         print("")
         print("**Welcome to the Rules pages**")
         print("")
-        print("1. Spelet går till så att spelaren får ett kort i taget och efter varje kort får avgöra om han vill ha ytterligare kort eller inte. ")
+        print("1. The game is played so that the player is dealt one card at a time and after each card must decide whether he wants additional cards or not. ")
         print("")
-        print("2. Det gäller för spelaren att försöka få summan av kortens valörer så nära 21 som möjligt utan att överskrida detta tal.")
+        print("2. It is up to the player to try to get the sum of the card values ​​as close as possible to 21 without exceeding this number.")
         print("")
-        print("3. Ess räknas som antingen 1 eller 14.")
+        print("3. Ace counts as either 1 or 14. user can choose which value to use.")
         print("")
-        print("4. Om spelaren får över 21 förlorar hen och datorn vinner.")
+        print("4. If the player gets over 21, he loses and the computer wins.")
         print("")
-        print("5. Om spelaren stannar under 21 får också datorn dra ett kort i taget och efter varje kort avgöra om den skall fortsätta eller inte. ")
+        print("5. If the player stays below 21, the computer must also draw one card at a time and after each card decide whether to continue or not.")
         print("")
-        print(".6 Om datorn får mer än 21 poäng eller lägre poäng än användaren vinner användaren, annars vinner datorn.")
+        print("6. If the computer scores more than 21 points or less than the user, the user wins, otherwise the computer wins.")
         print("")
-        print("7.Datorn vinner alltså på samma poäng.")
+        print("7. The computer thus wins on the same score.")
         print("")
         self.gameUI.MenuUI(userInputText="Select a Number: ",
             menuOptions=[ 
@@ -117,8 +116,8 @@ class Game21Setup:
         print("**The Game is On**")
     
         #* Preparing the inital hand for player and pc
-        self.currentPlayer.set_InitialHand(card1=self.deck.get_OneCard(), card2=self.deck.get_OneCard())
-        self.currentPcHand.append(self.deck.get_OneCard())
+        self.currentPlayer.set_InitialHand(card1=self.deck.get_OneCard())
+        self.currentPcHand = [self.deck.get_OneCard()]
 
 
         while self.__isGameRunning:
