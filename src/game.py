@@ -111,27 +111,27 @@ class Game21Setup:
     
     #* This function handle the logic of the whole 21 game and works as the "Game Page"         
     def InGame(self)-> None:
-        isPcTurn: bool = True
+        
         print("-----------------")
         print("")
         print("**The Game is On**")
     
         #* Preparing the inital hand for player and pc
         self.currentPlayer.set_InitialHand(card1=self.deck.get_OneCard(), card2=self.deck.get_OneCard())
-        self.currentPcHand = [self.deck.get_OneCard()]
+        self.currentPcHand.append(self.deck.get_OneCard())
 
 
         while self.__isGameRunning:
             
             self.PlayerTurn()
-            playerHandValue = self.CheckHandTotalValue(self.currentPlayer.get_CurrentHand()) 
+            playerHandValue: int = self.CheckHandTotalValue(self.currentPlayer.get_CurrentHand()) 
                 
             
-            while isPcTurn:
-                if isPcTurn == False: break
+            while True:
+         
                 
                 #* Take the current value of pc hand every round
-                pcHandValue = self.CheckHandTotalValue(self.currentPcHand) 
+                pcHandValue: int = self.CheckHandTotalValue(self.currentPcHand) 
                 
                 #* checking the winner before start the Turn.                
                 if pcHandValue > playerHandValue and pcHandValue > 21:
