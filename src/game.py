@@ -1,98 +1,42 @@
+import sys
 
 from src.gameUI import GameUI
-# from player import player
+from src.player import Player
+from src.deck import Deck
 
 
-class GameSetup:
+class Game21Setup:
     def __init__(self) -> None:
-        self.isGameRunning: bool = True
-        self.currentPcCards: list[any] = []
+        self.__isGameRunning: bool = True
+        self.currentPcHand: list[dict] = []
+        
+        #* Import and initiate the classes needed for the application to work
         self.gameUI = GameUI()
-
+        self.currentPlayer = Player()
+        self.deck = Deck()
    
 
-    # def ExitGame(self)->None:
-    #     self.isGameRunning = False
-    #     print("")
-    #     print("Thank you for Playing :) ")
-    #     print("See you soon!!!!! ")
-    #     print("")
-    
-
-    # def CheckHandTotalValue(playerHand)->bool:
-    #     value = sum(card.value for card in playerHand)
-
-    #     ace_count = sum(1 for card in playerHand if card.number == "Ace")
-    
-    #     while value > 21 and ace_count > 0:
-    #         value -= 10  
-    #         ace_count -= 1
-    
-    #     return value
-
-
-    # def PrintBoard(playerCards, pcCards)->None:
-    
-    #     #* Take the length of both list to print the index and the the data
-    #     pcCardLength = len(pcCards)
-    #     playerCardLength = len(playerCards)
-    #     print("")
-    #     print("--------------")
-    #     print("")
-    #     print("PC Hand: ")
-    #     for pcCard in range(pcCardLength):
-    #         print(f"{pcCard +1}. {pcCards[pcCard].number} {pcCards[pcCard].suit}")
-    #     print("")
-    #     # print(f"Player total: {CheckHandTotalValue(pcCards)}")
-    #     print("")
-    #     print("")
-    #     print("------vs------")
-    #     print("")
-    #     print("Player Hand: ")
-    #     for playerCard in range(playerCardLength):
-    #         print(f"{playerCard +1}. {playerCards[playerCard].number} {playerCards[playerCard].suit}")
-    #     print("")
-    #     # print(f"Player total: {CheckHandTotalValue(playerCards)}")
-    #     print("")
-
-
-
-    # def InGame(self)-> None:
-    #     self.isGameRunning
-    #     self.deck
-    #     self.currentPcCards
-    #     print("-----------------")
-    #     print("")
-    #     print("**The Game is On**")
-    
-    #     #* Preparing inital hand
-    #     # ShuffleTheDecks()
-    #     initialPlayerCards = [self.deckOfCard.pop(), self.deckOfCard.pop()]
-    #     initialPcCards = [self.deckOfCard.pop()]
-    #     currentPcCards = initialPcCards
-    
-    #     while self.isGameRunning:
-    #         player.PlayerTurn(initialPlayerCards, initialPcCards)
+    #* Make the program to finish and print a message
+    def ExitGame(self)->None:
+        print()
+        print("Thank you for Playing :) ")
+        print("See you soon!!!!! ")
+        print()
+        sys.exit(0)
         
-        
-    #         while True:
-    #             value = self.CheckHandTotalValue(currentPcCards)
     
-    #             if(value > 21):
-    #                 GameUI.EndMessageOfTheGame(
-    #                 message="Congratulations you have won the game, the pc's total value is too hight.", 
-    #                 currentPlayerCards=self.currentPlayerCards, 
-    #                 pcCards=currentPcCards
-    #                 )
-    
-    #             elif value == 21:
-    #                 GameUI.EndMessageOfTheGame(
-    #                 message="Sorry, the PC was very lucky and won this match.", 
-    #                 currentPlayerCards=self.currentPlayerCards, 
-    #                 pcCards=currentPcCards
-    #                 )
-         
-    def PrintRules(self, action)-> None:
+    #* function to return the Current player/pc hand
+    def CheckHandTotalValue(self, currentHand)->int:
+        totalValue: int = 0
+
+        for card in currentHand:
+            totalValue += card["value"]
+             
+        return totalValue    
+ 
+ 
+    #* This function works as a "Page" that the user can check if they want to see the rules of the game  
+    def PrintRules(self)-> None:
         print("")
         print("**Welcome to the Rules pages**")
         print("")
@@ -110,30 +54,146 @@ class GameSetup:
         print("")
         print("7.Datorn vinner alltså på samma poäng.")
         print("")
-        # self.MenuUI(userInputText="Select a Number: ",
-        #     menuOptions=[self.OptionMenu(title="Exit", action=action)])
-              
+        self.gameUI.MenuUI(userInputText="Select a Number: ",
+            menuOptions=[ 
+                {"title": "Back", "action":self.StartGame},
+                {"title": "Exit", "action":self.ExitGame},
+            ])
+          
+            
+    #* This function will handle all the logic and condition to the user turn
+    def PlayerTurn(self) -> None:
+        isPlayerTurn: bool = True
+        
+        #* function to handle if the player will pass his turn
+        def NoMoreCard() -> None:
+            nonlocal isPlayerTurn
+            isPlayerTurn = False         
 
-    def StartGame(self) -> None:
-        while self.isGameRunning:
-            print("")
+        #* function to let the user select if they want the ACE to has a 1 or 14 value or add a single card into the player hand
+        def addCard() -> None:
+            self.currentPlayer.set_NewCard(self.deck.get_OneCard())
+            
+        #* loop to control the player turn
+        while isPlayerTurn:
+            playerHandTotalvalue = self.CheckHandTotalValue(self.currentPlayer.get_CurrentHand())            
+            
+            if(playerHandTotalvalue > 21):
+                self.gameUI.EndMessage(
+                    message="Sorry the game is over, your total value is too hight", 
+                    currentPlayerCards=self.currentPlayer.get_CurrentHand(), 
+                    pcCurrentCards=self.currentPcHand,
+                    menuOptions =[
+                        {"title": "ReMatch", "action":self.InGame},
+                        {"title": "Go to Menu", "action":self.StartGame},
+                    ]
+                )
+            elif playerHandTotalvalue == 21:
+                self.gameUI.EndMessage(
+                    message="Congratulacion you won this match", 
+                    currentPlayerCards=self.currentPlayer.get_CurrentHand(), 
+                    pcCurrentCards=self.currentPcHand,
+                    menuOptions =[
+                        {"title": "ReMatch", "action":self.InGame},
+                        {"title": "Go to Menu", "action":self.StartGame},
+                    ]
+                )
+            else:
+                self.gameUI.PrintBoard(currentPlayerCards=self.currentPlayer.get_CurrentHand(), pcCurrentCards=self.currentPcHand)
+                self.gameUI.MenuUI(userInputText="Select a number: ", 
+                menuOptions=[
+                    {"title": "One more Card", "action":addCard},
+                    {"title": "No more card", "action":NoMoreCard},
+              
+            ])
+    
+    
+    #* This function handle the logic of the whole 21 game and works as the "Game Page"         
+    def InGame(self)-> None:
+        isPcTurn: bool = True
+        print("-----------------")
+        print("")
+        print("**The Game is On**")
+    
+        #* Preparing the inital hand for player and pc
+        self.currentPlayer.set_InitialHand(card1=self.deck.get_OneCard(), card2=self.deck.get_OneCard())
+        self.currentPcHand = [self.deck.get_OneCard()]
+
+
+        while self.__isGameRunning:
+            
+            #*Check if the Game is off before Start
+            if self.__isGameRunning == False: 
+                break 
+            
+            self.PlayerTurn()
+            playerHandValue = self.CheckHandTotalValue(self.currentPlayer.get_CurrentHand()) 
+                
+            
+            while isPcTurn:
+                if isPcTurn == False: break
+                
+                #* Take the current value of pc hand every round
+                pcHandValue = self.CheckHandTotalValue(self.currentPcHand) 
+                
+                #* checking the winner before start the Turn.                
+                if pcHandValue > playerHandValue and pcHandValue > 21:
+                    self.gameUI.EndMessage(
+                    message="Congratulation you won this match, The PC's hand is higher than 21", 
+                    currentPlayerCards=self.currentPlayer.get_CurrentHand(), 
+                    pcCurrentCards=self.currentPcHand,
+                    menuOptions =[
+                        {"title": "ReMatch", "action":self.InGame},
+                        {"title": "Go to Menu", "action":self.StartGame},
+                    ]
+                    )
+                    isPcTurn = False
+                elif pcHandValue > playerHandValue and pcHandValue < 21:
+                    self.gameUI.EndMessage(
+                    message="Sorry you loose, the computer was luckier this time", 
+                    currentPlayerCards=self.currentPlayer.get_CurrentHand(), 
+                    pcCurrentCards=self.currentPcHand,
+                    menuOptions =[
+                        {"title": "ReMatch", "action":self.InGame},
+                        {"title": "Go to Menu", "action":self.StartGame},
+                    ]
+                    )
+                    isPcTurn = False
+                else:
+                    #! Make sure that this is working before
+                    #* Adding a new card to pc Hand
+                    card: dict = self.deck.get_OneCard()
+                    if card["number"] != "1": 
+                        self.currentPcHand.append(card)
+                    else:
+                        if pcHandValue + 14 > playerHandValue and pcHandValue + 14  < 21:
+                            print(" this is true" + pcHandValue + 14)
+                            self.currentPcHand.append(dict(number="1", suit=card["suit"], value=14))
+                        else:
+                            self.currentPcHand.append(card)
+
+            break
+                    
+        #! Cuando estoy en la partida y salgo de ella y quiero ir menu y desde menu quiero cerrar el programa, el programa no se cierra y me envia a inGame
+    
+    #* Start menu: here the user can choose what to do
+    def StartGame(self) -> None:                         
             print("")
             print("**Welcome to 21 Games**")
             print("**I hope you know the rules if you dont please select rules and will see them**")
         
             print("---In this interface you have to select a number to do something!---")
-        
+
+            #* Main Menu to Controll the Game
             self.gameUI.MenuUI(userInputText="Select a number: ", 
                 menuOptions=[
-                self.gameUI.OptionMenu(title="Start Game", action=self.PrintRules),
-                self.gameUI.OptionMenu(title="See Rules", action=self.PrintRules),
-                self.gameUI.OptionMenu(title="Exit the Game", action=self.PrintRules),
+                    {"title": "Start Game", "action":self.InGame},
+                    {"title": "See Rules", "action":self.PrintRules},
+                    {"title": "Exit the Game", "action":self.ExitGame},
+
             ])
-              
         
         
 
         
      
-    
-    

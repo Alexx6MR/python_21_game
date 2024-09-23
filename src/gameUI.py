@@ -5,51 +5,74 @@ class GameUI:
     def __init__(self) -> None:
         pass
     
-    class OptionMenu:
-        def __init__(self, title: str, action:any) -> None:
-            self.title= title
-            self.action = action
 
-        def run(self):
-            self.action()
-
-    
-    def MenuUI(self, menuOptions:list[OptionMenu]=[], userInputText: str = "")->None:
-        optionLength = len(menuOptions)
+    #* This is the Menu that let the users take a decision.
+    def MenuUI(self, menuOptions:list[dict]=[], userInputText: str = "")->None:
+        optionLength:int = len(menuOptions)
     
         print()
         print("_______Menu_____")
         print()
     
-        #* Loop to print all the options we have
+        #* Loop to print all the title from the option dictionary in order
         for item in range(optionLength):
-            print(f"{item +1}. {menuOptions[item].title}")
+            option:dict = menuOptions[item]
+            print(f"{item + 1}. {option["title"]}")
 
-        #* Input to validate and select the option
+
+        #* Input to choose a option Obs: I use pyinputplus for validation
         print("_________________")
-        print()
-        res = pyip.inputNum(userInputText, max=optionLength, min=1)    
-        print()
-        print()
-        #* Loop to select and run the action in the selected object
+        userInput:int = pyip.inputNum(userInputText, max=optionLength, min=1)    
+        
+        
+        #* Loop to print and run the action in the selected object
         for item in range(optionLength):
-            if(res == item+1):
-                menuOptions[item].run()  
+            option:dict = menuOptions[item]
+            if(userInput == item + 1):
+                #* this is to run the option function
+                option["action"]()
 
     
-   
-    def EndMessageOfTheGame(self,currentPlayerCards, pcCards, message)->None:
-        print("_______")
-        print(message)
-        print("--------")
-        # print(f"Player Total hand: {CheckHandTotalValue(currentPlayerCards)}")
-        print()
-        print(f"")
-        # print(f"PC Total hand: {CheckHandTotalValue(pcCards)}")
-        print()
-        self.MenuUI(userInputText= "What do you want to do: ", 
-        menuOptions=[
-            self.OptionMenu(title="ReMatch", action=self.InGame),
-            self.OptionMenu(title="Exit", action=self.ExitGame),
-        ])
+    #* This function will print the cards and total value of the players/Pc hands
+    def ShowCurrentHandAndTotalValue(self, currentCards):
+        currentTotalCards:int = len(currentCards)
+        currentTotalCardsValue:int = 0
+        
+        #* loop to show current cards in order
+        for cardIndex in range(currentTotalCards):
+            card:dict = currentCards[cardIndex]
+            print(f"{cardIndex + 1}. {card["number"]} {card["suit"]}")
 
+        #* loop to add every card value and show the total value
+        for card in currentCards:
+            currentTotalCardsValue += card["value"]
+        
+        print(f"Total Value: {currentTotalCardsValue}")
+    
+    
+    #* Show a Message when someone Win and give some options
+    def EndMessage(self, currentPlayerCards:list[dict], pcCurrentCards:list[dict], message:str, menuOptions: list[dict])->None:
+        print()
+        print("PC Total hand:")
+        self.ShowCurrentHandAndTotalValue(pcCurrentCards)
+        print()
+        print("Player Total hand:")
+        self.ShowCurrentHandAndTotalValue(currentPlayerCards)
+        print()
+        print("*******************************************************")
+        print(f"{message}")
+        print("*******************************************************")
+        self.MenuUI(userInputText= "What do you want to do: ", 
+        menuOptions=menuOptions)
+
+    #* To print the board
+    def PrintBoard(self, currentPlayerCards, pcCurrentCards)->None:
+        print("--------------")
+        print("")
+        print("PC Hand: ")
+        self.ShowCurrentHandAndTotalValue(pcCurrentCards)
+        print("")
+        print("------vs------")
+        print("")
+        print("Player Hand: ")
+        self.ShowCurrentHandAndTotalValue(currentPlayerCards)

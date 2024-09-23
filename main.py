@@ -1,8 +1,8 @@
-from src.game import GameSetup
+from src.game import Game21Setup
 
 
 def main():
-   setup = GameSetup()
+   setup = Game21Setup()
    setup.StartGame()
 
 
