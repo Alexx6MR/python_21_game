@@ -25,9 +25,8 @@ class Game21Setup:
         print()
         sys.exit(0)
         
-    
     #* function to return the Current player/pc hand
-    def CheckHandTotalValue(self, currentHand: list[Card])->int:
+    def CheckHandTotalValue(self, currentHand: list[Card])-> int:
         totalValue: int = 0
 
         for card in currentHand:
@@ -104,8 +103,8 @@ class Game21Setup:
                 menuOptions=[
                     {"title": "One more Card", "action":addCard},
                     {"title": "No more card", "action":NoMoreCard},
-              
-            ])
+                ]
+            )
     
     
     #* This function handle the logic of the whole 21 game and works as the "Game Page"         
@@ -128,7 +127,6 @@ class Game21Setup:
             
             while True:
          
-                
                 #* Take the current value of pc hand every round
                 pcHandValue: int = self.CheckHandTotalValue(self.currentPcHand) 
                 
@@ -159,8 +157,7 @@ class Game21Setup:
                     if card.number != "Ace": 
                         self.currentPcHand.append(card)
                     else:
-                        if pcHandValue + 14 > playerHandValue and pcHandValue + 14  < 21:
-                            print(" this is true" + pcHandValue + 14)
+                        if pcHandValue + 14 > playerHandValue and pcHandValue + 14  < 21: 
                             self.currentPcHand.append(Card(number="Ace", suit=card.suit, value=14))
                         else:
                             self.currentPcHand.append(card)

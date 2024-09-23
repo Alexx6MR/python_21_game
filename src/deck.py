@@ -1,5 +1,6 @@
 import random
 
+
 class Card:
     def __init__(self, number:str, suit:str, value:int) -> None:
         self.number = number
@@ -9,7 +10,6 @@ class Card:
 class Deck:
    
     def __init__(self) -> None:    
-        
         #* This is the template of the deck
         self.__sampleDeckOfCard: list[Card] = [
             Card("Ace", "Hearts", 1),

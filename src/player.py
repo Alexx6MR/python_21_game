@@ -6,7 +6,7 @@ class Player:
         self.__currentHandCards: list[Card] = []
   
     #* This function is for let the user select the value of ACe
-    def SelectAceValue(self, card:Card):
+    def SelectAceValue(self, card:Card) -> Card:
         if card.number != "Ace": 
             return card
         
@@ -18,20 +18,19 @@ class Player:
         print("1. ACE as 1 ")
         print("2. ACE as 14 ")
         print("_________________")
-        userInput:int = pyip.inputNum("Please Select a number: ", max=2, min=1)    
+        userInput: int = pyip.inputNum("Please Select a number: ", max=2, min=1)    
         
         if(userInput == 1):
             return Card(number="Ace", suit=card.suit, value=1)
         else:
-             return Card(number="Ace", suit=card.suit, value=14)
+            return Card(number="Ace", suit=card.suit, value=14)
  
     
     #** Setters 
         
     #* add a new card into the players current hand       
     def set_NewCard (self, newCard:Card) ->None:
-            checkCard: Card = self.SelectAceValue(newCard)
-            self.__currentHandCards.append(checkCard)
+        self.__currentHandCards.append(self.SelectAceValue(newCard))
 
     #* add the inicial cards into the player hand 
     def set_InitialHand(self, card1:Card) -> None:
