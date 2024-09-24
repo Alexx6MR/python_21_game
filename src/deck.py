@@ -2,13 +2,12 @@ import random
 
 
 class Card:
-    def __init__(self, number:str, suit:str, value:int) -> None:
-        self.number = number
-        self.suit = suit
-        self.value = value
+    def __init__(self, name:str, suit:str, value:int) -> None:
+        self.name: str = name
+        self.suit: str = suit
+        self.value: int = value
 
 class Deck:
-   
     def __init__(self) -> None:    
         #* This is the template of the deck
         self.__sampleDeckOfCard: list[Card] = [

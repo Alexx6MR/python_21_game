@@ -7,7 +7,7 @@ class Player:
   
     #* This function is for let the user select the value of ACe
     def SelectAceValue(self, card:Card) -> Card:
-        if card.number != "Ace": 
+        if card.name != "Ace": 
             return card
         
         print()
@@ -17,13 +17,14 @@ class Player:
         print()
         print("1. ACE as 1 ")
         print("2. ACE as 14 ")
+        
         print("_________________")
         userInput: int = pyip.inputNum("Please Select a number: ", max=2, min=1)    
         
         if(userInput == 1):
-            return Card(number="Ace", suit=card.suit, value=1)
+            return Card(name=card.name, suit=card.suit, value=1)
         else:
-            return Card(number="Ace", suit=card.suit, value=14)
+            return Card(name=card.name, suit=card.suit, value=14)
  
     
     #** Setters 

@@ -41,7 +41,7 @@ class GameUI:
         #* loop to show current cards in order
         for cardIndex in range(currentTotalCards):
             card:Card = currentCards[cardIndex]
-            print(f"{cardIndex + 1}. {card.number} {card.suit}")
+            print(f"{cardIndex + 1}. {card.name} {card.suit}")
 
         #* loop to add every card value and show the total value
         for card in currentCards:

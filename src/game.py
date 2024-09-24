@@ -25,7 +25,7 @@ class Game21Setup:
         print()
         sys.exit(0)
         
-    #* function to return the Current player/pc hand
+    #* function to return the Current player/pc hand value
     def CheckHandTotalValue(self, currentHand: list[Card])-> int:
         totalValue: int = 0
 
@@ -69,7 +69,7 @@ class Game21Setup:
             nonlocal isPlayerTurn
             isPlayerTurn = False         
 
-        #* function to let the user select if they want the ACE to has a 1 or 14 value or add a single card into the player hand
+        #* add a single card into the player hand
         def addCard() -> None:
             self.currentPlayer.set_NewCard(self.deck.get_OneCard())
             
@@ -89,7 +89,7 @@ class Game21Setup:
                 )
             elif playerHandTotalvalue == 21:
                 self.gameUI.EndMessage(
-                    message="Congratulacion you won this match", 
+                    message="Congratulation you won this game", 
                     currentPlayerCards=self.currentPlayer.get_CurrentHand(), 
                     pcCurrentCards=self.currentPcHand,
                     menuOptions =[
@@ -117,22 +117,20 @@ class Game21Setup:
         #* Preparing the inital hand for player and pc
         self.currentPlayer.set_InitialHand(card1=self.deck.get_OneCard())
         self.currentPcHand = [self.deck.get_OneCard()]
-
-
+      
+        #* Run the player turn and then get the current value of his hand after his turn
+        self.PlayerTurn()
+        playerHandValue: int = self.CheckHandTotalValue(self.currentPlayer.get_CurrentHand()) 
+                
+            
         while self.__isGameRunning:
-            
-            self.PlayerTurn()
-            playerHandValue: int = self.CheckHandTotalValue(self.currentPlayer.get_CurrentHand()) 
-                
-            
-            while True:
          
-                #* Take the current value of pc hand every round
-                pcHandValue: int = self.CheckHandTotalValue(self.currentPcHand) 
+            #* Take the current value of pc hand every round
+            pcHandValue: int = self.CheckHandTotalValue(self.currentPcHand) 
                 
-                #* checking the winner before start the Turn.                
-                if pcHandValue > playerHandValue and pcHandValue > 21:
-                    self.gameUI.EndMessage(
+            #* checking the winner before start the Turn.                
+            if pcHandValue > playerHandValue and pcHandValue > 21:
+                self.gameUI.EndMessage(
                     message="Congratulation you won this match, The PC's hand is higher than 21", 
                     currentPlayerCards=self.currentPlayer.get_CurrentHand(), 
                     pcCurrentCards=self.currentPcHand,
@@ -141,9 +139,9 @@ class Game21Setup:
                         {"title": "Go to Menu", "action":self.StartGame},
                     ]
                     )
-                elif pcHandValue > playerHandValue and pcHandValue < 21:
+            elif pcHandValue > playerHandValue and pcHandValue <= 21:
                     self.gameUI.EndMessage(
-                    message="Sorry you loose, the computer was luckier this time", 
+                    message="Sorry you lose, the computer was luckier this time", 
                     currentPlayerCards=self.currentPlayer.get_CurrentHand(), 
                     pcCurrentCards=self.currentPcHand,
                     menuOptions =[
@@ -151,16 +149,16 @@ class Game21Setup:
                         {"title": "Go to Menu", "action":self.StartGame},
                     ]
                     )
+            else:
+                #* Adding a new card to pc Hand and change the value of Ace
+                card: Card = self.deck.get_OneCard()
+                if card.name != "Ace": 
+                    self.currentPcHand.append(card)
                 else:
-                    #* Adding a new card to pc Hand
-                    card: Card = self.deck.get_OneCard()
-                    if card.number != "Ace": 
-                        self.currentPcHand.append(card)
+                    if pcHandValue + 14 > playerHandValue and pcHandValue + 14 <= 21: 
+                        self.currentPcHand.append(Card(name=card.name, suit=card.suit, value=14))
                     else:
-                        if pcHandValue + 14 > playerHandValue and pcHandValue + 14  < 21: 
-                            self.currentPcHand.append(Card(number="Ace", suit=card.suit, value=14))
-                        else:
-                            self.currentPcHand.append(card)
+                        self.currentPcHand.append(card)
 
     
     #* Start menu: here the user can choose what to do
