@@ -1,5 +1,5 @@
 # The game "21" in Python
-This is the group project of nackademin's programming course 1 of the DevsOps engineer career. This is a Python project to create the card game "21", The Swedish version of blackjack. The most important differences between these two games are partly the value of the cards, partly that the banker in twenty-one plays against one player at a time and not, as in Black Jack, against everyone at once.
+This is the final project of nackademin's programming course 1 of the DevsOps engineer career. This is a Python project to create the card game "21", The Swedish version of blackjack. The most important differences between these two games are partly the value of the cards, partly that the banker in twenty-one plays against one player at a time and not, as in Black Jack, against everyone at once.
 
 The idea of ​​the game is to try with two or more cards to reach the total value of 21, or get as close as possible without exceeding 21. Aces are worth either 1 or 14, kings 13, queens 12, jacks 11. The number cards have the same values ​​as the denomination .
 
