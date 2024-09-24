@@ -3,7 +3,7 @@ from src.deck import Card
 class Player:
     
     def __init__(self) -> None:
-        self.__currentHandCards: list[Card] = []
+        self.__currentHand: list[Card] = []
   
     #* This function is for let the user select the value of ACe
     def SelectAceValue(self, card:Card) -> Card:
@@ -31,16 +31,16 @@ class Player:
         
     #* add a new card into the players current hand       
     def set_NewCard (self, newCard:Card) ->None:
-        self.__currentHandCards.append(self.SelectAceValue(newCard))
+        self.__currentHand.append(self.SelectAceValue(newCard))
 
     #* add the inicial cards into the player hand 
     def set_InitialHand(self, card1:Card) -> None:
-        self.__currentHandCards = [self.SelectAceValue(card1)]
+        self.__currentHand = [self.SelectAceValue(card1)]
         
     
     #** Getters
         
     #* Get the user Current hand
     def get_CurrentHand(self) -> list[Card]:
-        return self.__currentHandCards
+        return self.__currentHand
     

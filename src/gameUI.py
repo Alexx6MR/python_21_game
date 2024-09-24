@@ -34,30 +34,30 @@ class GameUI:
 
     
     #* This function will print the cards and total value of the players/Pc hands
-    def ShowCurrentHandAndTotalValue(self, currentCards:list[Card]):
-        currentTotalCards:int = len(currentCards)
+    def ShowCurrentHandAndTotalValue(self, currentHand:list[Card]):
+        currentTotalCards:int = len(currentHand)
         currentTotalCardsValue:int = 0
         
         #* loop to show current cards in order
         for cardIndex in range(currentTotalCards):
-            card:Card = currentCards[cardIndex]
+            card:Card = currentHand[cardIndex]
             print(f"{cardIndex + 1}. {card.name} {card.suit}")
 
         #* loop to add every card value and show the total value
-        for card in currentCards:
+        for card in currentHand:
             currentTotalCardsValue += card.value
         
         print(f"Total Value: {currentTotalCardsValue}")
     
     
     #* Show a Message when someone Win and give some options
-    def EndMessage(self, currentPlayerCards:list[Card], pcCurrentCards:list[Card], message:str, menuOptions: list[dict])-> None:
+    def EndMessage(self, currentPlayerHand:list[Card], currentPcHand:list[Card], message:str, menuOptions: list[dict])-> None:
         print()
         print("PC Total hand:")
-        self.ShowCurrentHandAndTotalValue(pcCurrentCards)
+        self.ShowCurrentHandAndTotalValue(currentPcHand)
         print()
         print("Player Total hand:")
-        self.ShowCurrentHandAndTotalValue(currentPlayerCards)
+        self.ShowCurrentHandAndTotalValue(currentPlayerHand)
         print()
         print("*******************************************************")
         print(f"{message}")
@@ -66,13 +66,13 @@ class GameUI:
         menuOptions=menuOptions)
 
     #* To print the board
-    def PrintBoard(self, currentPlayerCards:list[Card], pcCurrentCards:list[Card])-> None:
+    def PrintBoard(self, currentPlayerHand:list[Card], currentPcHand:list[Card])-> None:
         print("--------------")
         print("")
         print("PC Hand: ")
-        self.ShowCurrentHandAndTotalValue(pcCurrentCards)
+        self.ShowCurrentHandAndTotalValue(currentPcHand)
         print("")
         print("------vs------")
         print("")
         print("Player Hand: ")
-        self.ShowCurrentHandAndTotalValue(currentPlayerCards)
+        self.ShowCurrentHandAndTotalValue(currentPlayerHand)

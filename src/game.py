@@ -58,7 +58,21 @@ class Game21Setup:
                 {"title": "Back", "action":self.StartGame},
                 {"title": "Exit", "action":self.ExitGame},
             ])
-          
+     
+     
+    #* This function is for let the PC change the value of ACe
+    def PcAceValueChanger(self, card:Card, pcHandValue: int = 0, playerHandValue: int = 0) -> Card:
+        if card.name != "Ace": 
+            return card
+        else:
+            if pcHandValue + 14 > playerHandValue and pcHandValue + 14 <= 21: 
+                print(pcHandValue + 14)
+                return Card(name=card.name, suit=card.suit, value=14)
+            else:
+                return card
+        
+       
+   
             
     #* This function will handle all the logic and condition to the user turn
     def PlayerTurn(self) -> None:
@@ -80,8 +94,8 @@ class Game21Setup:
             if(playerHandTotalvalue > 21):
                 self.gameUI.EndMessage(
                     message="Sorry the game is over, your total value is too hight", 
-                    currentPlayerCards=self.currentPlayer.get_CurrentHand(), 
-                    pcCurrentCards=self.currentPcHand,
+                    currentPlayerHand=self.currentPlayer.get_CurrentHand(), 
+                    currentPcHand=self.currentPcHand,
                     menuOptions =[
                         {"title": "ReMatch", "action":self.InGame},
                         {"title": "Go to Menu", "action":self.StartGame},
@@ -90,21 +104,23 @@ class Game21Setup:
             elif playerHandTotalvalue == 21:
                 self.gameUI.EndMessage(
                     message="Congratulation you won this game", 
-                    currentPlayerCards=self.currentPlayer.get_CurrentHand(), 
-                    pcCurrentCards=self.currentPcHand,
+                    currentPlayerHand=self.currentPlayer.get_CurrentHand(), 
+                    currentPcHand=self.currentPcHand,
                     menuOptions =[
                         {"title": "ReMatch", "action":self.InGame},
                         {"title": "Go to Menu", "action":self.StartGame},
                     ]
                 )
             else:
-                self.gameUI.PrintBoard(currentPlayerCards=self.currentPlayer.get_CurrentHand(), pcCurrentCards=self.currentPcHand)
+                self.gameUI.PrintBoard(currentPlayerHand=self.currentPlayer.get_CurrentHand(), currentPcHand=self.currentPcHand)
                 self.gameUI.MenuUI(userInputText="Select a number: ", 
                 menuOptions=[
                     {"title": "One more Card", "action":addCard},
                     {"title": "No more card", "action":NoMoreCard},
                 ]
             )
+    
+    
     
     
     #* This function handle the logic of the whole 21 game and works as the "Game Page"         
@@ -116,7 +132,8 @@ class Game21Setup:
     
         #* Preparing the inital hand for player and pc
         self.currentPlayer.set_InitialHand(card1=self.deck.get_OneCard())
-        self.currentPcHand = [self.deck.get_OneCard()]
+        self.currentPcHand = [self.PcAceValueChanger(card=self.deck.get_OneCard())]
+        
       
         #* Run the player turn and then get the current value of his hand after his turn
         self.PlayerTurn()
@@ -132,8 +149,8 @@ class Game21Setup:
             if pcHandValue > playerHandValue and pcHandValue > 21:
                 self.gameUI.EndMessage(
                     message="Congratulation you won this match, The PC's hand is higher than 21", 
-                    currentPlayerCards=self.currentPlayer.get_CurrentHand(), 
-                    pcCurrentCards=self.currentPcHand,
+                    currentPlayerHand=self.currentPlayer.get_CurrentHand(), 
+                    currentPcHand=self.currentPcHand,
                     menuOptions =[
                         {"title": "ReMatch", "action":self.InGame},
                         {"title": "Go to Menu", "action":self.StartGame},
@@ -142,8 +159,8 @@ class Game21Setup:
             elif pcHandValue > playerHandValue and pcHandValue <= 21:
                     self.gameUI.EndMessage(
                     message="Sorry you lose, the computer was luckier this time", 
-                    currentPlayerCards=self.currentPlayer.get_CurrentHand(), 
-                    pcCurrentCards=self.currentPcHand,
+                    currentPlayerHand=self.currentPlayer.get_CurrentHand(), 
+                    currentPcHand=self.currentPcHand,
                     menuOptions =[
                         {"title": "ReMatch", "action":self.InGame},
                         {"title": "Go to Menu", "action":self.StartGame},
@@ -151,14 +168,13 @@ class Game21Setup:
                     )
             else:
                 #* Adding a new card to pc Hand and change the value of Ace
-                card: Card = self.deck.get_OneCard()
-                if card.name != "Ace": 
-                    self.currentPcHand.append(card)
-                else:
-                    if pcHandValue + 14 > playerHandValue and pcHandValue + 14 <= 21: 
-                        self.currentPcHand.append(Card(name=card.name, suit=card.suit, value=14))
-                    else:
-                        self.currentPcHand.append(card)
+                newCard: Card = self.PcAceValueChanger(
+                    card=self.deck.get_OneCard(), 
+                    pcHandValue=pcHandValue, 
+                    playerHandValue=playerHandValue)
+                
+                self.currentPcHand.append(newCard)
+                        
 
     
     #* Start menu: here the user can choose what to do
