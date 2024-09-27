@@ -67,6 +67,19 @@ class Deck:
             Card("Queen", "Spades", 12),
             Card("King", "Spades", 13),
         ]
+
+        #funciton to create deck automatic
+        #suitList: list[str] = ["diamong","Hearts", "Clubs", "Spades"]
+        #sampleDeckOfCard: list[str] = []
+        #for index, suit in enumerate(suitList):
+        #for item in range(1,13):                
+        #if(item == 1):
+            #sampleDeckOfCard.append(f"Ace-{suit}-{item}")
+        #elif(item == 12):
+           #   sampleDeckOfCard.append(f"Queen-{suit}-{item}")
+       # else:
+           # sampleDeckOfCard.append(f"{item}-{suit}-{item}")
+
         
         #* This makes that every time the deck is used, the cards are randomly shuffled.
         self.deckOfCard: list[Card] = random.sample(self.__sampleDeckOfCard, len(self.__sampleDeckOfCard))
